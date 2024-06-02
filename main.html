@@ -8,8 +8,6 @@
     <style>
         .invalid-feedback {
             display: none;
-            color: red;
-            font-size: 0.875em;
         }
     </style>
 </head>
@@ -68,9 +66,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('internship-form');
-        const errors = document.querySelectorAll('.invalid-feedback');
-        errors.forEach(error => error.style.display = 'none');
-
+        const invalidFeedbackElements = document.querySelectorAll('.invalid-feedback');
+        
         form.addEventListener('submit', function (event) {
             event.preventDefault();
             let isValid = true;
@@ -87,9 +84,19 @@
                 }
             });
 
+            const checkbox = document.getElementById('conditions-checkbox');
+            if (!checkbox.checkValidity()) {
+                isValid = false;
+                checkbox.classList.add('is-invalid');
+                checkbox.nextElementSibling.nextElementSibling.style.display = 'block';
+            } else {
+                checkbox.classList.remove('is-invalid');
+                checkbox.nextElementSibling.nextElementSibling.style.display = 'none';
+            }
+
             if (isValid) {
                 alert('Form submitted successfully!');
-                // You can add your form submission logic here
+                // Form submission logic here
             }
         });
     });
